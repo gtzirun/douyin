@@ -93,7 +93,7 @@ function getRedirectUrl($url) {
                             <input type="text" class="form-control" id="inputField" name="inputField" placeholder="输入包含抖音链接的文本,或者是视频ID">
                         </div>
                         <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="submit" class="btn btn-primary" id="submit-one">提交</button>
                         </div>
                         <div class="form-group">
                             <label for="resultLink">视频标题:(双击复制)</label>
@@ -144,6 +144,17 @@ $(document).ready(function() {
         toastr.options.positionClass = "toast-top-center"; // 设置位置在顶部中间
             // 使用toastr来显示消息
         toastr.success('标题已复制到剪贴板!');
+        // alert("链接已复制到剪贴板!");
+    });
+    
+        // 当用户双击resultdesc输入框时，复制其内容
+    $("#submit-one").click(function() {
+        // this.select();
+        // document.execCommand('copy');
+        toastr.options.timeOut = 3000; // 3秒后消失
+        toastr.options.positionClass = "toast-top-center"; // 设置位置在顶部中间
+            // 使用toastr来显示消息
+        toastr.success('提交成功');
         // alert("链接已复制到剪贴板!");
     });
     
