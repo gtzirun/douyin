@@ -27,6 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!empty($data['item_list'][0]['video']['play_addr']['uri'])) {
             $uri = $data['item_list'][0]['video']['play_addr']['uri'];
+            
+            $desc = $data['item_list'][0]['desc'];
+            
+            
             $finalUrl = "www.iesdouyin.com/aweme/v1/play/?video_id={$uri}&ratio=1080p&line=0";
         }
     } else if (!$errorMsg) {
@@ -59,25 +63,21 @@ function getRedirectUrl($url) {
     preg_match('/^Location: (.+)$/mi', $response, $matches);
     return !empty($matches[1]) ? trim($matches[1]) : null;
 }
+
 ?>
-
-<!-- ... PHP部分代码不变 ... -->
-
-<!-- ... PHP部分代码不变 ... -->
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抖音链接处理</title>
+    <title>无水印下载</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.2/dist/css/bootstrap.min.css">
 </head>
 <body>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">
                     输入抖音链接
@@ -91,11 +91,17 @@ function getRedirectUrl($url) {
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary">提交</button>
                         </div>
-                        <?php if($finalUrl): ?>
-                        <div class="alert alert-success" role="alert">
-                            结果链接: <?php echo $finalUrl; ?>
+                        <div class="form-group">
+                            <label for="resultLink">标题:</label>
+                            <input type="text" class="form-control" id="resultLink" value="<?php echo $desc; ?>" readonly style="width:100%;">
                         </div>
-                        <?php elseif($errorMsg): ?>
+                        
+                        <div class="form-group">
+                            <label for="resultLink">结果链接:</label>
+                            <input type="text" class="form-control" id="resultLink" value="<?php echo $finalUrl; ?>" readonly style="width:100%;">
+                        </div>
+
+                        <?php if($errorMsg): ?>
                         <div class="alert alert-danger" role="alert">
                             错误: <?php echo $errorMsg; ?>
                         </div>
@@ -107,9 +113,28 @@ function getRedirectUrl($url) {
     </div>
 </div>
 
+
 <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.slim.min.js"></script>
 <script src="https://unpkg.com/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://unpkg.com/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 当用户双击resultLink输入框时，复制其内容
+    $("#resultLink").dblclick(function() {
+        this.select();
+        document.execCommand('copy');
+        alert("链接已复制到剪贴板!");
+    });
+
+    // 当表单提交时，清空所有内容
+    $("form").submit(function() {
+        $("#resultLink").val("");
+        $(".alert").hide();
+    });
+});
+</script>
+
 </body>
 </html>
 
+    
