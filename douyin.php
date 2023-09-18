@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (is_numeric($videoIdOrLink)) {
         // 如果输入是纯数字，则认为它是videoId
         $videoId = $videoIdOrLink;
-    } else if (preg_match('/https:\/\/v\.douyin\.com\/[a-zA-Z0-9]+/', $videoIdOrLink)) {
+    } else if (preg_match('/v\.douyin\.com\/[a-zA-Z0-9]+/', $videoIdOrLink)) {
         // 从链接中提取视频ID
         $videoId = extractVideoId($videoIdOrLink);
     } else {
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 function processUserInput($input) {
-    preg_match('/https:\/\/v\.douyin\.com\/[a-zA-Z0-9]+/', $input, $matches);
+    preg_match('/v\.douyin\.com\/[a-zA-Z0-9]+/', $input, $matches);
     if (!empty($matches)) return $matches[0];
 
     preg_match('/\d{19}/', $input, $matches);
